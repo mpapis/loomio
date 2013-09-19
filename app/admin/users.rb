@@ -12,6 +12,7 @@ ActiveAdmin.register User do
       user.adminable_groups.any?
     end
     column "No. of groups", :memberships_count
+    column :deleted_at
     default_actions
   end
 
@@ -22,7 +23,10 @@ ActiveAdmin.register User do
       f.input :username
       f.input :is_admin
     end
-    f.buttons
+    f.buttons  do
+      f.button "Deactivate"
+    end
+    f.actions
   end
 
   member_action :update, :method => :put do
@@ -33,6 +37,11 @@ ActiveAdmin.register User do
     user.is_admin = params[:user][:is_admin]
     user.save
     redirect_to admin_users_url, :notice => "User updated"
+  end
+  member_action :update, :method => :put do
+    user = User.find(params[:id])
+    user.deactivate!
+    redirect_to admin_users_url, :notice => "User account deactivated"
   end
   
   csv do
