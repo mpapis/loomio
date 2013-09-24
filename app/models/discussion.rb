@@ -118,7 +118,9 @@ class Discussion < ActiveRecord::Base
   end
 
   def activity
-    Event.includes(:eventable).where(discussion_id: id).order('created_at DESC')
+    Event.includes(:eventable).
+      where(discussion_id: id).
+      where("kind != 'new_discussion'")
   end
 
   def viewed!
@@ -133,7 +135,7 @@ class Discussion < ActiveRecord::Base
       filtered_activity << event unless event.is_repetition_of?(previous_event)
       previous_event = event
     end
-    filtered_activity.reverse
+    filtered_activity
   end
 
   def participants
