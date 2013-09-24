@@ -10,9 +10,9 @@ rvm:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install imagemagick libmagickwand-dev -qq -y
+  - "gem list -d"
 before_script:
   - "cp config/database.yml.$DB config/database.yml"
-  - "gem list -d"
   - "NOEXEC_DEBUG=1 bundle exec rake db:create RAILS_ENV=test"
   - "NOEXEC_DEBUG=1 bundle exec rake db:schema:load RAILS_ENV=test"
   - "NOEXEC_DEBUG=1 bundle exec rake db:seed RAILS_ENV=test"
