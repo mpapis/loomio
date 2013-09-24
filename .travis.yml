@@ -7,6 +7,9 @@ branches:
     - /^[0-9]+\.[0-9]+$/
 rvm:
   - 2.0.0-p195
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install imagemagick libmagickwand-dev -qq -y
 before_script:
   - "cp config/database.yml.$DB config/database.yml"
   - "bundle exec rake db:create RAILS_ENV=test"
@@ -14,8 +17,4 @@ before_script:
   - "bundle exec rake db:seed RAILS_ENV=test"
   - "sh -e /etc/init.d/xvfb start"
   - "gem list -d"
-script: "bundle exec rake travis"
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install imagemagick libmagickwand-dev -qq -y
-install: NOEXEC_DEBUG=1 bundle exec rake
+script: "NOEXEC_DEBUG=1 bundle exec rake travis"
