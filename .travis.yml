@@ -12,9 +12,9 @@ before_install:
   - sudo apt-get install imagemagick libmagickwand-dev -qq -y
 before_script:
   - "cp config/database.yml.$DB config/database.yml"
-  - "bundle exec rake db:create RAILS_ENV=test"
-  - "bundle exec rake db:schema:load RAILS_ENV=test"
-  - "bundle exec rake db:seed RAILS_ENV=test"
-  - "sh -e /etc/init.d/xvfb start"
   - "gem list -d"
+  - "NOEXEC_DEBUG=1 bundle exec rake db:create RAILS_ENV=test"
+  - "NOEXEC_DEBUG=1 bundle exec rake db:schema:load RAILS_ENV=test"
+  - "NOEXEC_DEBUG=1 bundle exec rake db:seed RAILS_ENV=test"
+  - "sh -e /etc/init.d/xvfb start"
 script: "NOEXEC_DEBUG=1 bundle exec rake travis"
